@@ -1,0 +1,80 @@
+export PREFIX="$HOME/opt/cross"
+export TARGET=i686-elf
+export PATH="$PREFIX/bin:$PATH"
+
+cd $HOME/src
+ 
+# If you wish to build these packages as part of binutils:
+ mv isl-x.y.z binutils-x.y.z/isl
+ mv cloog-x.y.z binutils-x.y.z/cloog
+
+# But reconsider: You should just get the development packages from your OS.
+  
+mkdir build-binutils
+cd build-binutils
+../binutils-x.y.z/configure --target=$TARGET --prefix="$PREFIX" --with-sysroot --disable-nls --disable-werror
+make
+make install
+
+cd $HOME/src
+ 
+# If you wish to build these packages as part of gcc:
+ mv libiconv-x.y.z gcc-x.y.z/libiconv # Mac OS X users
+ mv gmp-x.y.z gcc-x.y.z/gmp
+ mv mpfr-x.y.z gcc-x.y.z/mpfr
+ mv mpc-x.y.z gcc-x.y.z/mpc
+ mv isl-x.y.z gcc-x.y.z/isl
+ mv cloog-x.y.z gcc-x.y.z/cloog
+# But reconsider: You should just get the development packages from your OS.
+  
+# The $PREFIX/bin dir _must_ be in the PATH. We did that above.
+	which -- $TARGET-as || echo $TARGET-as is not in the PATH
+	 
+mkdir build-gcc
+cd build-gcc
+../gcc-x.y.z/configure --target=$TARGET --prefix="$PREFIX" --disable-nls --enable-languages=c,c++ --without-headers
+make all-gcc
+make all-target-libgcc
+make install-gcc
+make install-target-libgcc
+
+ Configure gcc
+
+Enter the gcc source directory, run
+
+   ./configure --target=i686-elf --prefix=/usr/local/cross --enable-languages=c,c++ \
+       --without-headers --disable-nls
+   cd libstdc++-v3
+
+Edit the libstdc++ configure script
+
+Now you need to edit the configure file in the libstdc++-v3 directory. Open it up in the editor of your choice (which preserves unix style line endings) and find a section similar to (it is around line 108,000 in gcc 4.2.1, searching for 'combination' is probably the easiest way to find it):
+
+   { { echo "$as_me:$LINENO: error: No support for this host/target combination." >&5
+   echo "$as_me: error: No support for this host/target combination." >&2;}
+   { (exit 1); exit 1; }; }
+   ;;
+
+and alter the third line so that it reads:
+
+   { { echo "$as_me:$LINENO: error: No support for this host/target combination." >&5
+   echo "$as_me: error: No support for this host/target combination." >&2;}
+   }
+   ;;
+
+Configure and make libsupc++
+
+   CPP=i686-elf-cpp ./configure --host=i686-elf --prefix=/usr/local/cross --disable-hosted-libstdcxx \
+       --disable-nls
+   cd include
+   make
+   make install
+   cd ../libsupc++
+   make
+   make install
+
+Usage
+
+Libsupc++ should now be installed into /usr/local/cross/lib. To use it, you will need to add
+
+   -L/usr/local/cross/lib -lsupc++

@@ -1,0 +1,22 @@
+sudo apt-get install bison libopts25 libselinux1-dev autogen m4 autoconf help2man libopts25-dev flex libfont-freetype-perl automake autotools-dev libfreetype6-dev texinfo
+
+get grub-2.00.tar.gz from ftp://ftp.gnu.org/gnu/grub/
+
+export EFI_ARCH=i386
+OR
+export EFI_ARCH=x86_64
+
+> I ran into a minor problem building GRUB-2.00 with glibc-2.16.0.  I had 
+> to run a simple command to bypass the problem:
+> 
+> sed -i -e '/gets is a security/d' grub-core/gnulib/stdio.in.h
+> 
+> This may already be fixed, but I thought I'd post just in case.  This 
+> has also been showing up in several other packages.
+
+./configure --with-platform=efi --target=${EFI_ARCH} --program-prefix="" --disable-grub-mkfont
+
+make
+
+cd <grub2_compiled_source_dir>/grub-core
+../grub-mkimage -O ${EFI_ARCH}-efi -d . -o grub.efi -p "" part_gpt part_msdos ntfs ntfscomp hfsplus fat ext2 normal chain boot configfile linux multiboot
