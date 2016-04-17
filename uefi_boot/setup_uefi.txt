@@ -1,7 +1,8 @@
 
-dd if=/dev/zero of=200MUSB.img bs=512 count=409600
-sudo gdisk USBImage/200MUSB.img 
-sudo kpartx -av USBImage/200MUSB.img 
+dd if=/dev/zero of=300MUSB.img bs=512 count=409600
+#create 2 partitions with gdisk - one 200 MB for uefi fat32 boot partition and another for upanix (will be formatted in mosfs)
+sudo gdisk USBImage/300MUSB.img 
+sudo kpartx -av USBImage/300MUSB.img 
 ls /dev/loop0 
 ls /dev/mapper/loop0p1 
 sudo mkdosfs -F32 /dev/mapper/loop0p1 
