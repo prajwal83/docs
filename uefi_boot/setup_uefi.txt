@@ -1,0 +1,31 @@
+
+dd if=/dev/zero of=200MUSB.img bs=512 count=409600
+sudo gdisk USBImage/200MUSB.img 
+sudo kpartx -av USBImage/200MUSB.img 
+ls /dev/loop0 
+ls /dev/mapper/loop0p1 
+sudo mkdosfs -F32 /dev/mapper/loop0p1 
+cd usb_boot/
+sudo mount /dev/mapper/loop0p1 MntUSB/
+cd MntUSB/
+sudo mkdir -p efi/boot
+cd $_
+sudo mkdir -p i386-efi fonts x86_64-efi
+cd ../../../../../grub-2.00/grub-core/
+sudo cp *.mod *.lst ~/workspace/mosland/upanix/usb_boot/MntUSB/efi/boot/i386-efi/
+sudo cp grub.efi ~/workspace/mosland/upanix/usb_boot/MntUSB/efi/boot/
+cd $_
+sudo mv grub.efi bootia32.efi
+sudo touch grub.cfg
+sudo cp /usr/share/grub/unicode.pf2 fonts/
+cd ../../
+cd ..
+sudo cp ../bin/upanix.elf MntUSB/efi/boot/
+cd ../../../../../grub-2.00_64bit/grub-core/
+sudo cp *.mod *.lst ~/workspace/mosland/upanix/usb_boot/MntUSB/efi/boot/x86_64-efi/
+sudo cp grub.efi ~/workspace/mosland/upanix/usb_boot/MntUSB/efi/boot/
+cd $_
+sudo mv grub.efi bootx64.efi
+cd ../../../
+sudo umount MntUSB/
+
