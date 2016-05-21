@@ -38,7 +38,17 @@ make all-target-libgcc
 make install-gcc
 make install-target-libgcc
 
- Configure gcc
+
+Build NASM
+download nasm source code released at pretty much same time as GCC source code release
+if directory nasm contains your nasm downloaded source code then
+cd nasm
+./configure --target=$TARGET --prefix="$PREFIX"
+make all
+make install
+
+==================================================================
+Configure gcc
 
 Enter the gcc source directory, run
 
