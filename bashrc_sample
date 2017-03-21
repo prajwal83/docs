@@ -4,4 +4,3 @@ export PATH="$HOME/opt/cross/bin:$HOME/opt/idea-IC-143.2287.1/bin/:$PATH"
 export UPANIX_HOME="/home/prajwala/workspace/mosland/upanix"
 export UPANAPPS_HOME="/home/prajwala/workspace/mosland/upanapps"
 export UPANTOOLS_HOME="/home/prajwala/workspace/mosland/upantools"
-export SUDO_PW=<xxxxxxx>
