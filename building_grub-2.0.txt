@@ -1,10 +1,10 @@
-sudo apt-get install bison libopts25 libselinux1-dev autogen m4 autoconf help2man libopts25-dev flex libfont-freetype-perl automake autotools-dev libfreetype6-dev texinfo
+ed -i -e '/gets is a security/d' grub-core/gnulib/stdio.in.hudo apt-get install bison libopts25 libselinux1-dev autogen m4 autoconf help2man libopts25-dev flex libfont-freetype-perl automake autotools-dev libfreetype6-dev texinfo
 
 get grub-2.00.tar.gz from ftp://ftp.gnu.org/gnu/grub/
 
-export EFI_ARCH=i386
+To build 32bit version, have the source code in a folder say grub_2.00_32bit and then export EFI_ARCH=i386
 OR
-export EFI_ARCH=x86_64
+To build 64bit version, have the source code in a folder say grub_2.00_64bit and then export EFI_ARCH=x86_64
 
 > I ran into a minor problem building GRUB-2.00 with glibc-2.16.0.  I had 
 > to run a simple command to bypass the problem:
@@ -15,6 +15,11 @@ export EFI_ARCH=x86_64
 > has also been showing up in several other packages.
 
 ./configure --with-platform=efi --target=${EFI_ARCH} --program-prefix="" --disable-grub-mkfont
+
+if using GCC 6/above then 
+  - add --disable-werror to configure command above
+  - modify configure.ac to add -no-pie next to -fno-PIE 
+
 
 make
 

@@ -13,3 +13,10 @@
 	-fbuilding-libgcc -fno-stack-protector -Dinhibit_libc  -fpic
 
 	this is unused: unwind-sjlj.c - so removed
+
+4. Install QEMU
+sudo apt-get install qemu
+
+5. In upanix project/checkout directory
+- Download both 64 bit and 32 bit OVMF (UEFI QEMU firmware) from https://sourceforge.net/projects/edk2/files/OVMF/
+- unzip 64bit into ovmf.64 directory and 32bit into ovmf.32 directory

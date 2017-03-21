@@ -1,3 +1,40 @@
+***************************************************************************
+***************************************************************************
+#versions used for this build
+https://ftp.gnu.org/gnu/gcc/gcc-4.9.2/
+GCC = gcc-4.9.2
+
+https://ftp.gnu.org/gnu/binutils/
+BINUTILS = binutils-2.24
+
+http://isl.gforge.inria.fr/
+ISL = 0.12.2 for both binutils and gcc
+
+https://www.cloog.org/
+CLOOG = 0.18.3 for both binutils and gcc
+
+https://ftp.gnu.org/gnu/gmp/
+GMP = 6.0.0a/2014-03-25
+
+https://ftp.gnu.org/gnu/mpfr/
+MPFR = 3.1.3
+
+https://ftp.gnu.org/gnu/mpc/
+MPC = 1.0.3
+
+https://ftp.gnu.org/gnu/libiconv/
+LIBICONV = 1.14
+
+Optionally need to install following before starting the build
+(Assuming g++/gcc is already installed)
+sudo apt-get install libgmp-dev --> it failed to compile isl in binutils
+sudo apt-get install autotools-dev --> may require if some aclocal version mismatch - but there is workaround, see below
+sudo apt-get install automake
+
+Note that 4.9.2 may not build successfully with GCC 6.x version. Next time try using latest version of gcc and other binutils for cross-compilation
+***************************************************************************
+***************************************************************************
+
 export PREFIX="$HOME/opt/cross"
 export TARGET=i686-elf
 export PATH="$PREFIX/bin:$PATH"
@@ -7,6 +44,10 @@ cd $HOME/src
 # If you wish to build these packages as part of binutils:
  mv isl-x.y.z binutils-x.y.z/isl
  mv cloog-x.y.z binutils-x.y.z/cloog
+
+touch the following files in binutils-x.y.z/isl directory
+--> touch aclocal.m4 configure Makefile.in Makefile.am
+otherwise the build might cry with aclocal version mismatch
 
 # But reconsider: You should just get the development packages from your OS.
   
@@ -29,6 +70,10 @@ cd $HOME/src
   
 # The $PREFIX/bin dir _must_ be in the PATH. We did that above.
 	which -- $TARGET-as || echo $TARGET-as is not in the PATH
+
+touch the following files in gcc-x.y.z/isl directory
+--> touch aclocal.m4 configure Makefile.in Makefile.am
+otherwise the build might cry with aclocal version mismatch
 	 
 mkdir build-gcc
 cd build-gcc
@@ -39,7 +84,7 @@ make install-gcc
 make install-target-libgcc
 
 
-Build NASM
+Build NASM (version 2.11.08 for gcc 4.9.2)
 download nasm source code released at pretty much same time as GCC source code release
 if directory nasm contains your nasm downloaded source code then
 cd nasm
