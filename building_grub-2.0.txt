@@ -1,4 +1,4 @@
-ed -i -e '/gets is a security/d' grub-core/gnulib/stdio.in.hudo apt-get install bison libopts25 libselinux1-dev autogen m4 autoconf help2man libopts25-dev flex libfont-freetype-perl automake autotools-dev libfreetype6-dev texinfo
+apt-get install bison libopts25 libselinux1-dev autogen m4 autoconf help2man libopts25-dev flex libfont-freetype-perl automake autotools-dev libfreetype6-dev texinfo
 
 get grub-2.00.tar.gz from ftp://ftp.gnu.org/gnu/grub/
 
