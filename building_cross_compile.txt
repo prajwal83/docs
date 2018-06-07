@@ -27,7 +27,7 @@ LIBICONV = 1.14
 
 Optionally need to install following before starting the build
 (Assuming g++/gcc is already installed)
-sudo apt-get install libgmp-dev --> it failed to compile isl in binutils
+sudo apt-get install libgmp-dev OR sudo yum install gmp-devel --> it failed to compile isl in binutils
 sudo apt-get install autotools-dev --> may require if some aclocal version mismatch - but there is workaround, see below
 sudo apt-get install automake
 
