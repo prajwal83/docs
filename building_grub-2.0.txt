@@ -14,6 +14,8 @@ To build 64bit version, have the source code in a folder say grub_2.00_64bit and
 > This may already be fixed, but I thought I'd post just in case.  This 
 > has also been showing up in several other packages.
 
+#I also found that while compiling 32bit version, grub-dev.texi compilation fails. To fix this, I changed grub-dev.texi line@1398 - moved @subsection before @itemsize
+
 ./configure --with-platform=efi --target=${EFI_ARCH} --program-prefix="" --disable-grub-mkfont
 
 if using GCC 6/above then 
